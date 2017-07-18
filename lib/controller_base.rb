@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require 'active_support/inflector'
 require 'erb'
 require_relative './session'
 
@@ -43,6 +44,14 @@ class ControllerBase
   # use ERB and binding to evaluate templates
   # pass the rendered html to render_content
   def render(template_name)
+    raise "Double Render" if already_built_response?
+
+    controller_name = self.class.name.underscore
+    path = "views/#{controller_name}/#{template_name.to_s}.html.erb"
+
+    content = ERB.new(File.read(path)).result(binding)
+    render_content(content, 'text/html')
+    @already_built_response = true
   end
 
   # method exposing a `Session` object
