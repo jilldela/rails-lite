@@ -25,6 +25,7 @@ class ControllerBase
 
     @res.set_header('location', url)
     @res.status = 302 # 302 = HTTP status for URL redirection
+    session.store_session(@res)
 
     @already_built_response = true
   end
@@ -37,6 +38,7 @@ class ControllerBase
 
     @res['Content-Type'] = content_type
     @res.write(content)
+    session.store_session(@res)
 
     @already_built_response = true
   end
@@ -51,11 +53,13 @@ class ControllerBase
 
     content = ERB.new(File.read(path)).result(binding)
     render_content(content, 'text/html')
+
     @already_built_response = true
   end
 
   # method exposing a `Session` object
   def session
+    @session ||= Session.new(@req)
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
