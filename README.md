@@ -8,4 +8,10 @@ Rails Lite is a project to implement the basic functionality of Rails. It was cr
 * cookies usage by browser and server
 * create router to parse a URL and instantiate appropriate controller
 * building params out of HTTP request information
+* ActiveRecord basics
+* Flash and Flash.now
+* Rack Middleware chain
+* server errors and display error pages through Rack Middleware
+* CSRF protection and controllers
+* ActiveRecord and Rails incorporation
 
